@@ -1,2 +1,1 @@
-# Yandex_music_dj_bot
- 
+# Yandex_music_bot
