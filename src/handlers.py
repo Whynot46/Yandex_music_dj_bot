@@ -36,6 +36,18 @@ async def get_db(message: Message, bot: Bot):
         await message.answer(f"Ваш плейлист:\n{user_playlist}", reply_markup=kb.playlist_keyboard) 
     else:
         await message.answer("Ваш плейлист пуст", reply_markup=kb.main_keyboard)
+        
+        
+@router.message(F.text == "Ваш плейлист🔉")  
+async def get_db(message: Message, bot: Bot): 
+    playlist = db.get_playlist(message.from_user.id)
+    if len(playlist) > 0:
+        user_playlist = ""
+        for track in playlist:
+            user_playlist+=f"{track}\n"
+        await message.answer(f"Ваш плейлист:\n{user_playlist}", reply_markup=kb.playlist_keyboard) 
+    else:
+        await message.answer("Ваш плейлист пуст", reply_markup=kb.main_keyboard)
             
         
 @router.message(F.text == "/find")  
@@ -80,14 +92,14 @@ async def track_callback(callback: CallbackQuery, bot: Bot):
         await callback.message.edit_text(f"{callback.message.text}")
     elif str(callback.data)[:3]=="was":
         if str(callback.data)[:12]=="was_download":
-            callback.answer("Трек уже скачен", show_alert=True)
+            callback.answer("Трек уже скачен", show_alert=True, reply_markup=kb.main_keyboard)
         elif str(callback.data)[:7]=="was_add":
-            callback.answer("Трек уже был добавлен в Ваш плейлист", show_alert=True)
+            callback.answer("Трек уже был добавлен в Ваш плейлист", show_alert=True, reply_markup=kb.main_keyboard)
     elif str(callback.data)=="playlist":
         user_playlist = db.get_playlist(callback.from_user.id)
         for track in user_playlist:
             kb.yandex.download_track(track)
-            await callback.message.answer_audio(audio=FSInputFile(f"./music/{track}.mp3"))
+            await callback.message.answer_audio(audio=FSInputFile(f"./music/{track}.mp3"), reply_markup=kb.main_keyboard)
     else:
         await callback.message.answer(f"{callback.data}", reply_markup=kb.generate_track_keyboard(callback.data))
 

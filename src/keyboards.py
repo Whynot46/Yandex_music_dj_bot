@@ -3,7 +3,8 @@ import src.yandex_music_api as yandex
 
 
 main_keyboard = ReplyKeyboardMarkup(keyboard=[
-    [KeyboardButton(text='Найти трек🔎')]],
+    [KeyboardButton(text='Найти трек🔎')],
+    [KeyboardButton(text='Ваш плейлист🔉')]],
     resize_keyboard=True)
 
 

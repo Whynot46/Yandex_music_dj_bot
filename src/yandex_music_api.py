@@ -4,6 +4,7 @@ from src.config import YANDEX_MUSIC_TOKEN
 
 
 client = Client(token=YANDEX_MUSIC_TOKEN).init()
+print(client)
 
 
 def get_tracks(track_name):
