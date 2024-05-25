@@ -2,10 +2,10 @@ import asyncio
 from aiogram import Bot, Dispatcher
 from aiogram.fsm.storage.memory import MemoryStorage
 from src.handlers import router
-from src.config import API_TOKEN
+from src.config import TG_API_TOKEN
 
 
-bot = Bot(token=API_TOKEN, parse_mode="HTML")
+bot = Bot(token=TG_API_TOKEN, parse_mode="HTML")
 dp = Dispatcher(bot=bot, storage=MemoryStorage())
 
 

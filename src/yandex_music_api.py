@@ -1,10 +1,9 @@
 from yandex_music import Client
 import os
-from dotenv import load_dotenv
+from src.config import YANDEX_MUSIC_TOKEN
 
 
-load_dotenv()
-client = Client(token=os.getenv('YANDEX_MUSIC_TOKEN')).init()
+client = Client(token=YANDEX_MUSIC_TOKEN).init()
 
 
 def get_tracks(track_name):
