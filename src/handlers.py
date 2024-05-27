@@ -9,7 +9,6 @@ import src.db as db
 from src.config import ADMIN_ID
 
 
-
 router = Router()
 
 
@@ -24,6 +23,13 @@ async def start_loop(message: Message, bot: Bot):
         "и скачивать их прямиком с Яндекс Музыки🎧", reply_markup=kb.main_keyboard)
     if not db.is_old(message.from_user.id):
         db.add_new_user(message.from_user.id, message.from_user.username)
+        
+        
+@router.message(F.text == "/users")  
+async def get_db(message: Message, bot: Bot):  
+    if str(message.from_user.id) in ADMIN_ID:  
+        db.get_xlsx()
+        await message.answer_document(document=FSInputFile("./db/data.xlsx")) 
 
 
 @router.message(F.text == "/playlist")  
@@ -67,14 +73,7 @@ async def get_name(message: Message,state = FSMContext):
     await state.update_data(name = message.text)
     data = await state.get_data()
     await message.answer(text="По твоему запросу я нашёл следующие треки:", reply_markup=kb.generate_tracks_keyboard(str(data["name"])))
-    
-        
-@router.message(F.text == "/users")  
-async def get_db(message: Message, bot: Bot):  
-    if str(message.from_user.id) in ADMIN_ID:  
-        db.get_xlsx()
-        await message.answer_document(document=FSInputFile("./db/data.xlsx")) 
-        # os.remove(f"data.xlsx") 
+
         
 
 @router.callback_query(F.data)
